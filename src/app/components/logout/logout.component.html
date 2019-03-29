@@ -1,0 +1,8 @@
+<div class="dropdown" style="float:right;margin-top:-1%;margin-right:1%;">
+  <button class="dropbtn">Welcome, {{currentUserName}}</button>
+  <div class="dropdown-content">
+    <h5 style="text-align: center; color:black;"> Role: {{currentUserRole}}</h5>
+    <a style="text-align: center" [routerLink]="" (click)="logoutUser()">Logout</a>
+  </div>
+</div> 
+

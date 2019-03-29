@@ -1,0 +1,23 @@
+<br>
+<div style="margin-right:1vw;">
+  <logout></logout>
+</div>
+<br>
+
+<div class="p-grid" style="margin:1%;margin-top:2%;">
+  <div class={{cardSize}} *ngFor='let card of dashboardCards'>
+    <p-card styleClass="ui-card-shadow">
+      <p-header>
+        <div style="text-align: center">
+          <h2> {{card.title}} </h2>
+          <img src={{card.imageSrc}} height="500vh" routerLink="{{card.routerLink}}">
+        </div>
+      </p-header>
+      <div>{{card.description}}</div>
+      <p-footer>
+        {{card.footer}}
+      </p-footer>
+    </p-card>
+  </div>
+</div>
+

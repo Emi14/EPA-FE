@@ -1,18 +1,58 @@
+import { LeaveRequestComponent } from './components/leave-request/leave-request.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { AuthenticationService } from './services/authentication.service';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { AuthenticationErrorInterceptor } from './interceptors/authentication-error-interceptor';
+import { fakeBackendProvider } from './interceptors/fake-backend-interceptor';
+import { JwtInterceptor } from './interceptors/jwt-interceptor';
+import { LoginComponent } from './components/login/login.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { LogoutComponent } from './components/logout/logout.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { PanelModule } from "primeng/panel";
+import { CardModule } from 'primeng/card';
+import { CalendarModule } from 'primeng/calendar';
+import { FullCalendarModule } from 'primeng/fullcalendar';
+import { CalendarComponent } from './components/calendar/calendar.component';
+import { LeaveRequestApprovalComponent } from './components/leave-request-approval/leave-request-approval.component';
+import { AccountManagementComponent } from './components/account-management/account-management.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LoginComponent,
+    LogoutComponent,
+    DashboardComponent,
+    CalendarComponent,
+    LeaveRequestComponent,
+    LeaveRequestApprovalComponent,
+    AccountManagementComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    PanelModule,
+    CardModule,
+    CalendarModule,
+    FullCalendarModule
   ],
-  providers: [],
+  providers: [
+    AuthenticationService,
+    { provide: 'BASE_URL', useFactory: getBaseUrl, deps: [] },
+    fakeBackendProvider,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthenticationErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+export function getBaseUrl() {
+  return document.getElementsByTagName('base')[0].href;
+}
