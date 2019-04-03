@@ -19,6 +19,7 @@ import { FullCalendarModule } from 'primeng/fullcalendar';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { LeaveRequestApprovalComponent } from './components/leave-request-approval/leave-request-approval.component';
 import { AccountManagementComponent } from './components/account-management/account-management.component';
+import { UserProviderService } from './services/user-provider.service';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { AccountManagementComponent } from './components/account-management/acco
   ],
   providers: [
     AuthenticationService,
+    UserProviderService,
     { provide: 'BASE_URL', useFactory: getBaseUrl, deps: [] },
     fakeBackendProvider,
     { provide: HTTP_INTERCEPTORS, useClass: AuthenticationErrorInterceptor, multi: true },

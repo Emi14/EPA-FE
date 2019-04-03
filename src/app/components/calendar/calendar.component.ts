@@ -25,11 +25,11 @@ export class CalendarComponent implements OnInit {
       },
       {
           "title": "Repeating Event",
-          "start": "2019-04-09T16:00:00"
+          "start": "2019-04-09"
       },
       {
           "title": "Repeating Event",
-          "start": "2019-04-16T16:00:00"
+          "start": "2019-04-16"
       },
       {
           "title": "Conference",
@@ -42,7 +42,7 @@ export class CalendarComponent implements OnInit {
       header: {
           left: 'today,prev,next',
           right: 'title',
-          center: 'month,agendaWeek,agendaDay'
+          center: 'month,agendaWeek'
       }
     }
   }

@@ -2,17 +2,16 @@ import { Injectable } from "@angular/core";
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HTTP_INTERCEPTORS, HttpResponse } from "@angular/common/http";
 import { Observable, of, throwError } from 'rxjs';
 import { mergeMap, materialize, delay, dematerialize } from "rxjs/operators";
-import { User } from "../core/userDetails";
 import { Role } from "../core/userRoles";
+import { UserProviderService } from "../services/user-provider.service";
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
+
+    constructor(private userProviderService: UserProviderService) {}
     
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const users: User[] = [ //get those from server
-            { id: 1, username: 'admin', password: 'admin', firstName: 'Admin', lastName: 'User', role: Role.Admin },
-            { id: 2, username: 'user', password: 'user', firstName: 'Normal', lastName: 'User', role: Role.User }
-        ];
+        const users = this.userProviderService.getUsers();
 
         const authHeader = request.headers.get('Authorization');
         const isLoggedIn = authHeader && authHeader.startsWith('Bearer fake-jwt-token'); //check if user is logged in
@@ -29,8 +28,6 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 return this.ok({
                     id: user.id,
                     username: user.username,
-                    firstName: user.firstName,
-                    lastName: user.lastName,
                     role: user.role,
                     token: `fake-jwt-token.${user.role}`
                 });
