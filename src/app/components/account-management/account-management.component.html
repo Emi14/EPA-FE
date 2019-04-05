@@ -1,9 +1,85 @@
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"
+                 appendTo="body"></p-confirmDialog>
+
+<p-dialog header="Add User" [(visible)]="display" [style]="{width: '700px'}" [closable]=false>
+    <form>
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" class="form-control" id="username" placeholder="Enter username" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" class="form-control" id="password" placeholder="Enter password" required>
+        </div>
+        <div class="form-group">
+            <label for="freeDays">Free Days Remaining</label>
+            <input type="number" class="form-control" id="freeDays" placeholder="Enter free days number" required>
+        </div>
+        <div class="form-group">
+            <label for="workHome">Work from Home</label>
+            <select class="form-control" id="workHome">
+                <option value="true">True</option>
+                <option value="false">False</option>
+            </select>
+        </div>
+    </form>
+
+    <p-footer>
+        <button pButton type="button" class="ui-button-primary" icon="fa fa-remove"  label="Cancel" (click)="cancelAddUser()"></button>
+        <button pButton type="button" class="ui-button-success" icon="fa fa-check"  label="Save" (click)="saveUser()"></button>
+    </p-footer>
+</p-dialog>
+
 <br>
 <div style="margin-right:1vw;">
   <logout></logout>
 </div>
-<br>
+<br><br><br>
 
-<p>
-  account-management works!
-</p>
+
+<div class="container">
+  <p-table [value]="userList" dataKey="id">
+    <ng-template pTemplate="caption">
+        Users List
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th>User</th>
+            <th>Free Days</th>
+            <th>Work from Home</th>
+            <th>Delete</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-user>
+        <tr [pEditableRow]="user">
+            <td pEditableColumn>
+                {{user.username}}
+            </td>
+            <td pEditableColumn>
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <input pInputText type="number" [(ngModel)]="user.freeDays" required>
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        {{user.freeDays}}
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+            <td>
+                <select class="form-control" id="workFromHome">
+                    <option value="true">True</option>
+                    <option value="false">False</option>
+                </select>
+            </td>
+            <td> <button type='button' class='btn btn-danger' (click)="deleteUser(user.id)"><i class='glyphicon glyphicon-remove'></i></button> </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+        <button pButton type="button" class="ui-button-primary" icon="fa fa-plus"  label="Add User" (click)="addUser()"></button>
+        <button pButton type="button" class="ui-button-success" icon="fa fa-check"  label="Save Changes" (click)="saveChanges()"></button>
+    </ng-template>
+  </p-table>
+</div>
+
+<br>
+<p-messages [(value)]="msgs"></p-messages>

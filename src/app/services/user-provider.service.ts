@@ -7,8 +7,8 @@ import { HttpClient } from '@angular/common/http';
 export class UserProviderService {
 
     private users: User[] = [ //get those from server
-        { id: 1, username: 'admin', password: 'admin', role: Role.Admin },
-        { id: 2, username: 'user', password: 'user', role: Role.User }
+        { id: 1, username: 'admin', password: 'admin', role: Role.Admin, freeDays: 21, workFromHome: true },
+        { id: 2, username: 'user', password: 'user', role: Role.User, freeDays: 21, workFromHome: true }
     ];
 
     constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) { }

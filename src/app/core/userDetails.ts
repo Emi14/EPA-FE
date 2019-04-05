@@ -3,5 +3,7 @@ export class User {
     username: string;
     password: string;
     role: string;
+    freeDays: number;
+    workFromHome: boolean;
     token?: string;
 }
