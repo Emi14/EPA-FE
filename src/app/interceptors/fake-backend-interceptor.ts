@@ -29,6 +29,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     id: user.id,
                     username: user.username,
                     role: user.role,
+                    freeDays: user.freeDays,
+                    workFromHome: user.workFromHome,
                     token: `fake-jwt-token.${user.role}`
                 });
             }

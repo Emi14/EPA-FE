@@ -22,7 +22,6 @@ export class AccountManagementComponent implements OnInit {
   }
 
   private deleteUser(userId: number): void {
-    console.warn('delete', userId);
     this.confirmationService.confirm({
       message: 'Are you sure that you want to delete this user?',
       accept: () => {

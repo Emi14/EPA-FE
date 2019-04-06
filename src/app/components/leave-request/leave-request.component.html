@@ -4,6 +4,32 @@
 </div>
 <br>
 
-<p>
-  leave-request works!
-</p>
+<div class="container">
+<br>
+  <h4>Free Days Remaining: {{freeDaysRemaining}}</h4>
+  <br><br>
+  <div class="form-group">
+    <label for="startDate">Start Date:</label>
+    <br>
+    <input type="date" name="startDate" id="startDate">
+  </div>
+  <div class="form-group">
+    <label for="endDate">End Date:</label>
+    <br>
+    <input type="date" name="endDate" id="endDate">
+  </div>
+  <div class="form-group" style="width:20%;">
+      <label for="leaveRequestType">Leave Request Type</label>
+      <select class="form-control" id="leaveRequestType">
+          <option value="vacation">Vacation</option>
+          <option value="maternity/paternity">Maternity/Paternity Leave</option>
+          <option value="studyLeave">Study Leave</option>
+          <option value="specialLeave">Special Leave</option>
+          <option value="sickLeave">Sick Leave</option>
+      </select>
+  </div>
+  <button pButton type="button" class="ui-button-success" icon="fa fa-check"  label="Submit" (click)="submitRequest()"></button>
+</div>
+
+<br>
+<p-messages [(value)]="msgs"></p-messages>

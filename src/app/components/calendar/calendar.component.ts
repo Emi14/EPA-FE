@@ -13,6 +13,8 @@ export class CalendarComponent implements OnInit {
 
   //https://www.primefaces.org/primeng/#/fullcalendar
   ngOnInit() {
+
+    //ia evenimentele utilizatorului curent (get by id)
     this.events = [
       {
           "title": "All Day Event",
