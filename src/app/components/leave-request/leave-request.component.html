@@ -21,11 +21,11 @@
   <div class="form-group" style="width:20%;">
       <label for="leaveRequestType">Leave Request Type</label>
       <select class="form-control" id="leaveRequestType">
-          <option value="vacation">Vacation</option>
-          <option value="maternity/paternity">Maternity/Paternity Leave</option>
-          <option value="studyLeave">Study Leave</option>
-          <option value="specialLeave">Special Leave</option>
-          <option value="sickLeave">Sick Leave</option>
+          <option value="Vacation">Vacation</option>
+          <option value="Maternity/Paternity Leave">Maternity/Paternity Leave</option>
+          <option value="Study Leave">Study Leave</option>
+          <option value="Special Leave">Special Leave</option>
+          <option value="Sick Leave">Sick Leave</option>
       </select>
   </div>
   <button pButton type="button" class="ui-button-success" icon="fa fa-check"  label="Submit" (click)="submitRequest()"></button>
@@ -33,3 +33,29 @@
 
 <br>
 <p-messages [(value)]="msgs"></p-messages>
+
+<br>
+<div class="container">
+    <p-table [value]="currentUserRequests">
+      <ng-template pTemplate="caption">
+          My Requests
+      </ng-template>
+      <ng-template pTemplate="header">
+          <tr>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Leave Request Type</th>
+              <th>Status</th>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-request>
+          <tr>
+              <td>{{request.startDate}}</td>
+              <td>{{request.endDate}}</td>
+              <td>{{request.leaveRequestType}}</td>
+              <td>{{request.status}}</td>
+          </tr>
+      </ng-template>
+    </p-table>
+  </div>
+

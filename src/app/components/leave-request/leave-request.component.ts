@@ -8,9 +8,10 @@ import { User } from 'src/app/core/userDetails';
   styleUrls: ['./leave-request.component.css']
 })
 export class LeaveRequestComponent implements OnInit {
-  private freeDaysRemaining: number = 21;
+  private freeDaysRemaining: number;
   private msgs: any[] = [];
   private currentUser: User;
+  private currentUserRequests: any[] = [];
 
   constructor(private authenticationService: AuthenticationService) { }
 
@@ -18,6 +19,8 @@ export class LeaveRequestComponent implements OnInit {
     this.currentUser = this.authenticationService.currentUserValue;
     console.warn('currentUser', this.currentUser);
     this.freeDaysRemaining = this.currentUser.freeDays;
+
+    this.getCurrentUserRequests();
   }
 
   private submitRequest(): void {
@@ -32,10 +35,14 @@ export class LeaveRequestComponent implements OnInit {
     //send to server leave request in admin approval list
     this.msgs.push({severity:'success', summary:'Request Sent', detail:'Request Succesfully Sent!'});
 
-    
+
     (<HTMLInputElement>(document.getElementById('startDate'))).value = '';
     (<HTMLInputElement>(document.getElementById('endDate'))).value = '';
-    (<HTMLSelectElement>(document.getElementById('leaveRequestType'))).value = 'vacation';
+    (<HTMLSelectElement>(document.getElementById('leaveRequestType'))).value = 'Vacation';
+  }
+
+  private getCurrentUserRequests(): void {
+    //get la server la requests dupa user id si populare currentUserRequests la subscribe
   }
 
 }
