@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthenticationService } from 'src/app/services/authentication.service';
+import { User } from 'src/app/core/userDetails';
 
 @Component({
   selector: 'calendar',
@@ -8,13 +10,16 @@ import { Component, OnInit } from '@angular/core';
 export class CalendarComponent implements OnInit {
   private events: any[];
   private options: any;
+  private currentUser: User;
 
-  constructor() { }
+  constructor(private authenticationService: AuthenticationService) { }
 
   //https://www.primefaces.org/primeng/#/fullcalendar
   ngOnInit() {
+    this.currentUser = this.authenticationService.currentUserValue;
+    console.warn('currentUser', this.currentUser);
 
-    //ia evenimentele utilizatorului curent (get by id)
+    //ia cocediile aprobate ale utilizatorului curent (get by id)
     this.events = [
       {
           "title": "All Day Event",
