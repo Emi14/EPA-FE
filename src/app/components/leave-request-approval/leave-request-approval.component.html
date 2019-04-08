@@ -4,6 +4,32 @@
 </div>
 <br>
 
-<p>
-  leave-request-approval works!
-</p>
+<br><br>
+<div class="container">
+  <p-table [value]="usersRequests">
+    <ng-template pTemplate="caption">
+        Users Requests
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th>User </th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Leave Request Type</th>
+            <th>Status</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-request>
+        <tr>
+            <td>{{request.user}}</td>
+            <td>{{request.startDate}}</td>
+            <td>{{request.endDate}}</td>
+            <td>{{request.leaveRequestType}}</td>
+            <td>
+              <button type='button' class='btn btn-success' (click)="acceptRequest(request)"><i class='glyphicon glyphicon-ok'></i></button>
+              <button type='button' class='btn btn-danger' (click)="rejectRequest(request)"><i class='glyphicon glyphicon-remove'></i></button>
+            </td>
+        </tr>
+    </ng-template>
+  </p-table>
+</div>
