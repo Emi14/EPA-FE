@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { User } from 'src/app/core/userDetails';
+import { VacationProviderService } from 'src/app/services/vacation-provider.service';
 
 @Component({
   selector: 'calendar',
@@ -12,7 +13,7 @@ export class CalendarComponent implements OnInit {
   private options: any;
   private currentUser: User;
 
-  constructor(private authenticationService: AuthenticationService) { }
+  constructor(private authenticationService: AuthenticationService, private vacationProviderService: VacationProviderService) { }
 
   //https://www.primefaces.org/primeng/#/fullcalendar
   ngOnInit() {
@@ -20,9 +21,14 @@ export class CalendarComponent implements OnInit {
     console.warn('currentUser', this.currentUser);
 
     //ia cocediile aprobate ale utilizatorului curent (get by id)
+    this.vacationProviderService.getAllVacationsForAnUser(this.currentUser.id).subscribe(res => {
+      let acceptedRequests = res.filter(request => request.vacationRequestStatus === 'ACCEPTED');
+      //de convertit astea in formatul unui event
+    })
+
     this.events = [
       {
-          "title": "All Day Event",
+          "title": "All Day Event", //la titlu o sa pun tipul concediului
           "start": "2019-04-01"
       },
       {

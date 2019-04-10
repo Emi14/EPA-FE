@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { VacationProviderService } from 'src/app/services/vacation-provider.service';
 
 @Component({
   selector: 'leave-request-approval',
@@ -8,26 +9,30 @@ import { Component, OnInit } from '@angular/core';
 export class LeaveRequestApprovalComponent implements OnInit {
   private usersRequests: any[] = [];
 
-  constructor() { }
+  constructor(private vacationProviderService: VacationProviderService) { }
 
   ngOnInit() {
     //get users requests from server (toate care sunt pending)
-    this.usersRequests.push({
-      user: 'user',
-      startDate: 'startDate',
-      endDate: 'endDate',
-      leaveRequestType: 'Vacation'
+    this.vacationProviderService.getAllVacationRequests().subscribe(res => {
+        this.usersRequests = res;
+        this.usersRequests = this.usersRequests.filter(ur => ur.vacationRequestStatus === 'PENDING');
     })
   }
 
-  private rejectRequest(request: any) {
-    //status to rejected/deny -> update pe server
-    //elimina din lista cu usersRequests   this.userRequests = this.userRequest.filter(ur => ur !== request);
+  private acceptRequest(request: any) {
+    //status to ACCEPTED -> update pe server
+    this.vacationProviderService.updateVacationRequestStatus(request.id).subscribe( res => {
+
+    });
+    this.usersRequests = this.usersRequests.filter(ur => ur !== request); //elimina din lista cu usersRequests
   }
 
-  private acceptRequest(request: any) {
-    //status to accept -> update pe server
-    //elimina din lista cu usersRequests   this.userRequests = this.userRequest.filter(ur => ur !== request);
+  private rejectRequest(request: any) {
+    //status to REJECTED/deny -> update pe server
+    this.vacationProviderService.updateVacationRequestStatus(request.id).subscribe( res => {
+
+    });
+    this.usersRequests = this.usersRequests.filter(ur => ur !== request); //elimina din lista cu usersRequests
   }
 
 }

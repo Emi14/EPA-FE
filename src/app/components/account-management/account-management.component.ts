@@ -22,19 +22,22 @@ export class AccountManagementComponent implements OnInit {
       let users = result;
       for (let user of users) {
         if (user.role === "USER") user.role = Role.User;
-        else user.role = Role.Admin;
+        else if (user.role === "ADMIN") user.role = Role.Admin;
       }
       this.userList = this.userList.concat(users);
     });
   }
 
   private deleteUser(userId: number): void {
+    console.warn('userId', userId);
     this.confirmationService.confirm({
       message: 'Are you sure that you want to delete this user?',
       accept: () => {
-
         //request de DELETE
-        this.msgs.push({severity:'success', summary:'User Deleted', detail:'User Succesfully Deleted!'});
+        this.userProviderService.deleteUser(userId).subscribe(res => {
+            this.msgs.push({severity:'success', summary:'User Deleted', detail:'User Succesfully Deleted!'});
+            this.userList = this.userList.filter(user => user.id !== userId); //remove deleted user from the list
+        })    
       },
       reject: () => {}
     });
@@ -59,7 +62,7 @@ export class AccountManagementComponent implements OnInit {
     newUser.role = "USER";
     newUser.vacationRequests = [];
     //newUser.id = 3; ??
-    console.warn('newUser', newUser);
+    console.warn('newUser', JSON.stringify(newUser));
 
     this.userProviderService.addUser(newUser).subscribe(res => {
       this.display = false;

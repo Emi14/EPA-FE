@@ -12,15 +12,15 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     constructor(private userProviderService: UserProviderService) {}
     
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.warn('request url', request.url);
-    // this.userProviderService.getUsers().subscribe(result => { //this cause maximum call stack (se duce recursiv in intercept)
-    //     this.users = this.users.concat(result);
-    //     for (let user of this.users) {
-    //         if (user.role === "USER") user.role = Role.User;
-    //         else user.role = Role.Admin;
-    //     }
-    //     return;
-    // });
+        if (!request.url.endsWith('/user/getAll')) {
+            this.userProviderService.getUsers().subscribe(result => { //this cause maximum call stack (se duce recursiv in intercept)
+                this.users = this.users.concat(result);
+                for (let user of this.users) {
+                    if (user.role === "USER") user.role = Role.User;
+                    else if (user.role ==='ADMIN') user.role = Role.Admin;
+                }
+            });     
+        }
 
         const authHeader = request.headers.get('Authorization');
         const isLoggedIn = authHeader && authHeader.startsWith('Bearer fake-jwt-token'); //check if user is logged in

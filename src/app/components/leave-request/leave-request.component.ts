@@ -33,23 +33,25 @@ export class LeaveRequestComponent implements OnInit {
     console.warn('endDate', endDate);
     console.warn('leaveRequestType', leaveRequestType);
 
-    let newLeaveRequest;
+    let newLeaveRequest: any = {};
     newLeaveRequest.startDate = startDate;
     newLeaveRequest.endDate = endDate;
     newLeaveRequest.vacationRequestStatus = "PENDING";
     newLeaveRequest.vacationRequestType = leaveRequestType;
 
-    //send to server leave request in admin approval list
-    this.msgs.push({severity:'success', summary:'Request Sent', detail:'Request Succesfully Sent!'});
-
-
+    this.vacationProviderService.addVacationRequest(newLeaveRequest).subscribe(res => {
+        this.msgs.push({severity:'success', summary:'Request Sent', detail:'Request Succesfully Sent!'});
+    });       
+    
     (<HTMLInputElement>(document.getElementById('startDate'))).value = '';
     (<HTMLInputElement>(document.getElementById('endDate'))).value = '';
     (<HTMLSelectElement>(document.getElementById('leaveRequestType'))).value = 'Vacation';
   }
 
   private getCurrentUserRequests(): void {
-    //get la server la requests dupa user id si populare currentUserRequests la subscribe
+    this.vacationProviderService.getAllVacationsForAnUser(this.currentUser.id).subscribe( res => {
+        this.currentUserRequests = res;
+    })
   }
 
 }
