@@ -10,15 +10,22 @@ import { ConfirmationService, MessageService } from 'primeng/api';
   styleUrls: ['./account-management.component.css']
 })
 export class AccountManagementComponent implements OnInit {
-  private userList: User[];
+  private userList: User[] = this.userProviderService.getBaseUsers();
   private msgs: any[] = [];
   private display: boolean = false;
   
   constructor(private userProviderService: UserProviderService, private confirmationService: ConfirmationService, private messageService: MessageService) { }
 
   ngOnInit() {
-    this.userList = this.userProviderService.getUsers(); //change this with subscribe....    userProviderService is gonna return Observable<User[]>
     this.userList = this.userList.filter(user => user.role === Role.User);
+    this.userProviderService.getUsers().subscribe(result => {
+      let users = result;
+      for (let user of users) {
+        if (user.role === "USER") user.role = Role.User;
+        else user.role = Role.Admin;
+      }
+      this.userList = this.userList.concat(users);
+    });
   }
 
   private deleteUser(userId: number): void {
@@ -46,18 +53,19 @@ export class AccountManagementComponent implements OnInit {
 
     newUser.username = userName.value;
     newUser.password  = password.value;
-    newUser.freeDays = +freeDays.value;
-    if (workHome.value === 'true')
-      newUser.workFromHome = true;
-    else
-      newUser.workFromHome = false;
+    newUser.daysOff = +freeDays.value;
+    if (workHome.value === 'true') newUser.workFromHome = true;
+    else newUser.workFromHome = false;
+    newUser.role = "USER";
+    newUser.vacationRequests = [];
+    //newUser.id = 3; ??
     console.warn('newUser', newUser);
 
-    //request de insert
-
-    this.display = false;
-    this.clearAddUserFormElements();
-    this.msgs.push({severity:'success', summary:'User Saved', detail:'User Succesfully Saved!'});
+    this.userProviderService.addUser(newUser).subscribe(res => {
+      this.display = false;
+      this.clearAddUserFormElements();
+      this.msgs.push({severity:'success', summary:'User Saved', detail:'User Succesfully Saved!'});
+    });
   }
 
   private cancelAddUser(): void {
@@ -75,7 +83,7 @@ export class AccountManagementComponent implements OnInit {
   }
 
   private saveChanges(): void { 
-
+    console.warn('users updated', this.userList); //aici trebuie sa facem update la tot din userList (fiecare user in parte??)
 
     //REQUEST de UPDATE
     this.msgs.push({severity:'success', summary:'Changes Saved', detail:'Changes have been Saved!'});

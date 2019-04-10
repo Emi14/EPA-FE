@@ -3,7 +3,8 @@ export class User {
     username: string;
     password: string;
     role: string;
-    freeDays: number;
+    daysOff: number;
     workFromHome: boolean;
+    vacationRequests?: any[];
     token?: string;
 }

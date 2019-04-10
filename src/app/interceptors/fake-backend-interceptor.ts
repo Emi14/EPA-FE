@@ -4,14 +4,23 @@ import { Observable, of, throwError } from 'rxjs';
 import { mergeMap, materialize, delay, dematerialize } from "rxjs/operators";
 import { Role } from "../core/userRoles";
 import { UserProviderService } from "../services/user-provider.service";
+import { User } from "../core/userDetails";
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
-
+    private users: User[] = this.userProviderService.getBaseUsers();
     constructor(private userProviderService: UserProviderService) {}
     
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const users = this.userProviderService.getUsers();
+    console.warn('request url', request.url);
+    // this.userProviderService.getUsers().subscribe(result => { //this cause maximum call stack (se duce recursiv in intercept)
+    //     this.users = this.users.concat(result);
+    //     for (let user of this.users) {
+    //         if (user.role === "USER") user.role = Role.User;
+    //         else user.role = Role.Admin;
+    //     }
+    //     return;
+    // });
 
         const authHeader = request.headers.get('Authorization');
         const isLoggedIn = authHeader && authHeader.startsWith('Bearer fake-jwt-token'); //check if user is logged in
@@ -23,14 +32,15 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
             // authenticate - public
             if (request.url.endsWith('/users/authenticate') && request.method === 'POST') {
-                const user = users.find(x => x.username === request.body.username && x.password === request.body.password);
+                const user = this.users.find(x => x.username === request.body.username && x.password === request.body.password);
                 if (!user) return this.error('Username or password is incorrect');
                 return this.ok({
                     id: user.id,
                     username: user.username,
                     role: user.role,
-                    freeDays: user.freeDays,
+                    daysOff: user.daysOff,
                     workFromHome: user.workFromHome,
+                    vacationRequests: user.vacationRequests,
                     token: `fake-jwt-token.${user.role}`
                 });
             }
@@ -38,7 +48,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             //get all users (admin only)
             if (request.url.endsWith('/users') && request.method === 'GET') { //authorize to url just if it is logged in with needed role
                 if (role !== Role.Admin) return this.unauthorised();
-                return this.ok(users);
+                return this.ok(this.users);
             }
 
             // pass through any requests not handled above

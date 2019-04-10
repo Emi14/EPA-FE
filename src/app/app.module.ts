@@ -29,6 +29,7 @@ import { MessageService } from 'primeng/api';
 import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
 import { DialogModule } from 'primeng/dialog';
+import { VacationProviderService } from './services/vacation-provider.service';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { DialogModule } from 'primeng/dialog';
     UserProviderService,
     ConfirmationService,
     MessageService,
+    VacationProviderService,
     { provide: 'BASE_URL', useFactory: getBaseUrl, deps: [] },
     fakeBackendProvider,
     { provide: HTTP_INTERCEPTORS, useClass: AuthenticationErrorInterceptor, multi: true },

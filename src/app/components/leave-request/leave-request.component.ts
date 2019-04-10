@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { User } from 'src/app/core/userDetails';
+import { VacationProviderService } from 'src/app/services/vacation-provider.service';
 
 @Component({
   selector: 'leave-request',
@@ -13,12 +14,12 @@ export class LeaveRequestComponent implements OnInit {
   private currentUser: User;
   private currentUserRequests: any[] = [];
 
-  constructor(private authenticationService: AuthenticationService) { }
+  constructor(private authenticationService: AuthenticationService, private vacationProviderService: VacationProviderService) { }
 
   ngOnInit() {
     this.currentUser = this.authenticationService.currentUserValue;
     console.warn('currentUser', this.currentUser);
-    this.freeDaysRemaining = this.currentUser.freeDays;
+    this.freeDaysRemaining = this.currentUser.daysOff;
 
     this.getCurrentUserRequests();
   }
@@ -31,6 +32,12 @@ export class LeaveRequestComponent implements OnInit {
     console.warn('startDate', startDate);
     console.warn('endDate', endDate);
     console.warn('leaveRequestType', leaveRequestType);
+
+    let newLeaveRequest;
+    newLeaveRequest.startDate = startDate;
+    newLeaveRequest.endDate = endDate;
+    newLeaveRequest.vacationRequestStatus = "PENDING";
+    newLeaveRequest.vacationRequestType = leaveRequestType;
 
     //send to server leave request in admin approval list
     this.msgs.push({severity:'success', summary:'Request Sent', detail:'Request Succesfully Sent!'});
