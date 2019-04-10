@@ -21,7 +21,8 @@ export class LeaveRequestApprovalComponent implements OnInit {
 
   private acceptRequest(request: any) {
     //status to ACCEPTED -> update pe server
-    this.vacationProviderService.updateVacationRequestStatus(request.id).subscribe( res => {
+    request.vacationRequestStatus = 'ACCEPTED';
+    this.vacationProviderService.updateVacationRequestStatus(request.id, request).subscribe( res => {
 
     });
     this.usersRequests = this.usersRequests.filter(ur => ur !== request); //elimina din lista cu usersRequests
@@ -29,7 +30,8 @@ export class LeaveRequestApprovalComponent implements OnInit {
 
   private rejectRequest(request: any) {
     //status to REJECTED/deny -> update pe server
-    this.vacationProviderService.updateVacationRequestStatus(request.id).subscribe( res => {
+    request.vacationRequestStatus = 'REJECTED';
+    this.vacationProviderService.updateVacationRequestStatus(request.id, request).subscribe( res => {
 
     });
     this.usersRequests = this.usersRequests.filter(ur => ur !== request); //elimina din lista cu usersRequests

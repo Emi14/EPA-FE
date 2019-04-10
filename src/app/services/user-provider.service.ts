@@ -32,8 +32,8 @@ export class UserProviderService {
         return this.http.post(this.baseUrl + '/save', newUser, this.httpOptions);
     }
 
-    public updateUser(newUser: User): Observable<any> {
-        return this.http.put(this.baseUrl + '/save' , newUser, this.httpOptions);
+    public updateUser(userId: number, newUser: User): Observable<any> {
+        return this.http.put(this.baseUrl + '/save' , newUser, this.httpOptions); 
     }
 
     public deleteUser(id: number): Observable<any>  {

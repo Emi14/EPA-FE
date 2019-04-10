@@ -32,8 +32,8 @@ export class VacationProviderService {
     return this.http.post(this.baseUrl + 'addVacationRequest', newVacation, this.httpOptions);
   }
 
-  public updateVacationRequestStatus(vacationRequestId: number): Observable<any> {
-    return this.http.put(this.baseUrl + 'updateVacationRequestStatus/' + vacationRequestId.toString(), this.httpOptions);
+  public updateVacationRequestStatus(vacationRequestId: number, newVacation: any): Observable<any> {
+    return this.http.put(this.baseUrl + 'updateVacationRequestStatus/' + vacationRequestId.toString(), newVacation, this.httpOptions);
   }
 
 }
