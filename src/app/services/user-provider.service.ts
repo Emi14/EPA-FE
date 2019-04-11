@@ -9,7 +9,7 @@ export class UserProviderService {
     private baseUrl: string = 'https://api-epa.herokuapp.com/api/user';
     private baseUsers: User[] = [ //get those from server
         { id: 1000, username: 'admin', password: 'admin', role: Role.Admin, daysOff: 21, workFromHome: true },
-        { id: 1001, username: 'user', password: 'user', role: Role.User, daysOff: 21, workFromHome: true }
+        { id: 1001, username: 'user', password: 'user', role: Role.User, daysOff: 21, workFromHome: false }
     ];
     readonly httpOptions = {
         headers: new HttpHeaders({

@@ -26,6 +26,7 @@
           <option value="Study Leave">Study Leave</option>
           <option value="Special Leave">Special Leave</option>
           <option value="Sick Leave">Sick Leave</option>
+          <option *ngIf="currentUser.workFromHome === true" value="Work from Home">Work from Home</option>
       </select>
   </div>
   <button pButton type="button" class="ui-button-success" icon="fa fa-check"  label="Submit" (click)="submitRequest()"></button>

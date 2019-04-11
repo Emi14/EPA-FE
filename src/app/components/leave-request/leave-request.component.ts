@@ -39,13 +39,30 @@ export class LeaveRequestComponent implements OnInit {
     newLeaveRequest.vacationRequestStatus = "PENDING";
     newLeaveRequest.vacationRequestType = leaveRequestType;
 
-    this.vacationProviderService.addVacationRequest(newLeaveRequest).subscribe(res => {
-        this.msgs.push({severity:'success', summary:'Request Sent', detail:'Request Succesfully Sent!'});
-    });       
+    const startDateAsDate = new Date(startDate);
+    const endDateAsDate = new Date(endDate);
+    let difference = this.dateDiffInDays(startDateAsDate,endDateAsDate);
+    console.warn('differenceOfDays', difference);
+    if (difference > this.freeDaysRemaining) {
+      this.msgs.push({severity:'error', summary:'Not Enough Days', detail:'You do not have enough free days remaining!'});
+    }
+    else {
+      this.vacationProviderService.addVacationRequest(newLeaveRequest).subscribe(res => {
+          this.msgs.push({severity:'success', summary:'Request Sent', detail:'Request Succesfully Sent!'});
+      });
+      (<HTMLInputElement>(document.getElementById('startDate'))).value = '';
+      (<HTMLInputElement>(document.getElementById('endDate'))).value = '';
+      (<HTMLSelectElement>(document.getElementById('leaveRequestType'))).value = 'Vacation';
+    }       
     
-    (<HTMLInputElement>(document.getElementById('startDate'))).value = '';
-    (<HTMLInputElement>(document.getElementById('endDate'))).value = '';
-    (<HTMLSelectElement>(document.getElementById('leaveRequestType'))).value = 'Vacation';
+  }
+
+  private dateDiffInDays(a:Date, b:Date):number {
+    // Discard the time and time-zone information.
+    const _MS_PER_DAY = 1000 * 60 * 60 * 24;
+    const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+    const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+    return Math.floor((utc2 - utc1) / _MS_PER_DAY);
   }
 
   private getCurrentUserRequests(): void {

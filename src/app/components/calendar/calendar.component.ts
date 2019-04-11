@@ -24,6 +24,7 @@ export class CalendarComponent implements OnInit {
     this.vacationProviderService.getAllVacationsForAnUser(this.currentUser.id).subscribe(res => {
       let acceptedRequests = res.filter(request => request.vacationRequestStatus === 'ACCEPTED');
       //de convertit astea in formatul unui event
+      console.warn('accepted requests', acceptedRequests);
     })
 
     this.events = [
