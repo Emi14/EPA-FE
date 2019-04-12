@@ -61,7 +61,6 @@ export class AccountManagementComponent implements OnInit {
     else newUser.workFromHome = false;
     newUser.role = "USER";
     newUser.vacationRequests = [];
-    //newUser.id = 3; ??
     console.warn('newUser', JSON.stringify(newUser));
 
     this.userProviderService.addUser(newUser).subscribe(res => {

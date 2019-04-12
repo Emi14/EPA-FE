@@ -38,6 +38,9 @@ export class LeaveRequestComponent implements OnInit {
     newLeaveRequest.endDate = endDate;
     newLeaveRequest.vacationRequestStatus = "PENDING";
     newLeaveRequest.vacationRequestType = leaveRequestType;
+    newLeaveRequest.user = {
+      id: 1001, username: 'user', password: 'user', role: "USER", daysOff: this.freeDaysRemaining, workFromHome: false, "vacationRequests": []
+    }
 
     const startDateAsDate = new Date(startDate);
     const endDateAsDate = new Date(endDate);
@@ -45,6 +48,9 @@ export class LeaveRequestComponent implements OnInit {
     console.warn('differenceOfDays', difference);
     if (difference > this.freeDaysRemaining) {
       this.msgs.push({severity:'error', summary:'Not Enough Days', detail:'You do not have enough free days remaining!'});
+    }
+    else if (difference < 0) {
+      this.msgs.push({severity:'error', summary:'', detail:'Start Date must be before End Date!'});
     }
     else {
       this.vacationProviderService.addVacationRequest(newLeaveRequest).subscribe(res => {
