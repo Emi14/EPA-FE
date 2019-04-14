@@ -38,7 +38,7 @@ export class LeaveRequestComponent implements OnInit {
     newLeaveRequest.endDate = endDate;
     newLeaveRequest.vacationRequestStatus = "PENDING";
     newLeaveRequest.vacationRequestType = leaveRequestType;
-    newLeaveRequest.user = {
+    newLeaveRequest.user = { //petrecatalin21
       id: 1001, username: 'user', password: 'user', role: "USER", daysOff: this.freeDaysRemaining, workFromHome: false, "vacationRequests": []
     }
 

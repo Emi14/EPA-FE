@@ -15,6 +15,9 @@ export class LeaveRequestApprovalComponent implements OnInit {
     //get users requests from server (toate care sunt pending)
     this.vacationProviderService.getAllVacationRequests().subscribe(res => {
         this.usersRequests = res;
+        for (let i = 0; i < this.usersRequests.length; ++i)
+          if (this.usersRequests[i].user.username==="petrecatalin21")
+          this.usersRequests[i].user.username = "user";
         this.usersRequests = this.usersRequests.filter(ur => ur.vacationRequestStatus === 'PENDING');
     })
   }
@@ -22,6 +25,7 @@ export class LeaveRequestApprovalComponent implements OnInit {
   private acceptRequest(request: any) {
     //status to ACCEPTED -> update pe server
     request.vacationRequestStatus = 'ACCEPTED';
+    console.warn('request', JSON.stringify(request));
     this.vacationProviderService.updateVacationRequestStatus(request.id, request).subscribe( res => {
 
     });
@@ -31,6 +35,7 @@ export class LeaveRequestApprovalComponent implements OnInit {
   private rejectRequest(request: any) {
     //status to REJECTED/deny -> update pe server
     request.vacationRequestStatus = 'REJECTED';
+    console.warn('request', JSON.stringify(request));
     this.vacationProviderService.updateVacationRequestStatus(request.id, request).subscribe( res => {
 
     });

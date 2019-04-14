@@ -25,6 +25,7 @@ export class AccountManagementComponent implements OnInit {
         else if (user.role === "ADMIN") user.role = Role.Admin;
       }
       this.userList = this.userList.concat(users);
+      console.warn('usersList', this.userList);
     });
   }
 
@@ -67,6 +68,7 @@ export class AccountManagementComponent implements OnInit {
       this.display = false;
       this.clearAddUserFormElements();
       this.msgs.push({severity:'success', summary:'User Saved', detail:'User Succesfully Saved!'});
+      this.userList.push(newUser);
     });
   }
 
