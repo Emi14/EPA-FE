@@ -8,6 +8,7 @@ import { VacationProviderService } from 'src/app/services/vacation-provider.serv
 })
 export class LeaveRequestApprovalComponent implements OnInit {
   private usersRequests: any[] = [];
+  private msgs: any[] = [];
 
   constructor(private vacationProviderService: VacationProviderService) { }
 
@@ -23,11 +24,10 @@ export class LeaveRequestApprovalComponent implements OnInit {
   }
 
   private acceptRequest(request: any) {
-    //status to ACCEPTED -> update pe server
-    request.vacationRequestStatus = 'ACCEPTED';
-    console.warn('request', JSON.stringify(request));
-    this.vacationProviderService.updateVacationRequestStatus(request.id, request).subscribe( res => {
-
+    //status to APPROVED -> update pe server
+    request.vacationRequestStatus = 'APPROVED';
+    this.vacationProviderService.updateVacationRequestStatus(request.id, 'APPROVED').subscribe( res => {
+        this.msgs.push({severity:'success', summary:'Request Approves', detail:'Request Succesfully Approved!'});
     });
     this.usersRequests = this.usersRequests.filter(ur => ur !== request); //elimina din lista cu usersRequests
   }
@@ -35,9 +35,8 @@ export class LeaveRequestApprovalComponent implements OnInit {
   private rejectRequest(request: any) {
     //status to REJECTED/deny -> update pe server
     request.vacationRequestStatus = 'REJECTED';
-    console.warn('request', JSON.stringify(request));
-    this.vacationProviderService.updateVacationRequestStatus(request.id, request).subscribe( res => {
-
+    this.vacationProviderService.updateVacationRequestStatus(request.id, 'REJECTED').subscribe( res => {
+        this.msgs.push({severity:'success', summary:'Request Rejected', detail:'Request Succesfully Rejected!'});
     });
     this.usersRequests = this.usersRequests.filter(ur => ur !== request); //elimina din lista cu usersRequests
   }

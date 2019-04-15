@@ -12,7 +12,7 @@ export class CalendarComponent implements OnInit {
   private events: any[];
   private options: any;
   private currentUser: User;
-
+  
   constructor(private authenticationService: AuthenticationService, private vacationProviderService: VacationProviderService) { }
 
   //https://www.primefaces.org/primeng/#/fullcalendar
@@ -22,9 +22,9 @@ export class CalendarComponent implements OnInit {
 
     //ia cocediile aprobate ale utilizatorului curent (get by id)
     this.vacationProviderService.getAllVacationsForAnUser(this.currentUser.id).subscribe(res => {
-      let acceptedRequests = res.filter(request => request.vacationRequestStatus === 'ACCEPTED');
+      let approvedRequests = res.filter(request => request.vacationRequestStatus === 'APPROVED');
       //de convertit astea in formatul unui event
-      console.warn('accepted requests', acceptedRequests);
+      console.warn('approved requests', approvedRequests);
     })
 
     this.events = [

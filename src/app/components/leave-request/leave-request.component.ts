@@ -55,6 +55,7 @@ export class LeaveRequestComponent implements OnInit {
     else {
       this.vacationProviderService.addVacationRequest(newLeaveRequest).subscribe(res => {
           this.msgs.push({severity:'success', summary:'Request Sent', detail:'Request Succesfully Sent!'});
+          this.getCurrentUserRequests();
       });
       (<HTMLInputElement>(document.getElementById('startDate'))).value = '';
       (<HTMLInputElement>(document.getElementById('endDate'))).value = '';
