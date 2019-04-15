@@ -87,9 +87,19 @@ export class AccountManagementComponent implements OnInit {
   }
 
   private saveChanges(): void { 
-    console.warn('users updated', this.userList); //aici trebuie sa facem update la tot din userList (fiecare user in parte??)
+    //aici trebuie sa facem update la tot din userList (fiecare user in parte)
 
-    //REQUEST de UPDATE
+    for (let i=1; i<this.userList.length; ++i) {
+      if (this.userList[i].role === 'User')
+        this.userList[i].role = "USER";
+      if (this.userList[i].role === 'Admin')
+        this.userList[i].role = "ADMIN";
+      console.warn('user', JSON.stringify(this.userList[i]));
+      this.userProviderService.addUser(this.userList[i]).subscribe(res => {
+        console.warn('user updated');
+      });
+    }
+
     this.msgs.push({severity:'success', summary:'Changes Saved', detail:'Changes have been Saved!'});
   }
 
