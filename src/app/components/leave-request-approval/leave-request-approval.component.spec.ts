@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { LeaveRequestApprovalComponent } from './leave-request-approval.component';
+import { AppModule } from 'src/app/app.module';
 
 describe('LeaveRequestApprovalComponent', () => {
   let component: LeaveRequestApprovalComponent;
@@ -11,9 +12,10 @@ describe('LeaveRequestApprovalComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LeaveRequestApprovalComponent ]
-    })
-    .compileComponents();
+      imports: [
+        AppModule
+      ]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

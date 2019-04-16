@@ -2,8 +2,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
-
 import { AccountManagementComponent } from './account-management.component';
+import { AppModule } from 'src/app/app.module';
 
 describe('AccountManagementComponent', () => {
   let component: AccountManagementComponent;
@@ -11,9 +11,10 @@ describe('AccountManagementComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AccountManagementComponent ]
-    })
-    .compileComponents();
+      imports: [
+        AppModule
+      ]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

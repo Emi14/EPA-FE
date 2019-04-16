@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { LeaveRequestComponent } from './leave-request.component';
+import { AppModule } from 'src/app/app.module';
 
 describe('LeaveRequestComponent', () => {
   let component: LeaveRequestComponent;
@@ -11,9 +12,10 @@ describe('LeaveRequestComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LeaveRequestComponent ]
-    })
-    .compileComponents();
+      imports: [
+        AppModule
+      ]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
