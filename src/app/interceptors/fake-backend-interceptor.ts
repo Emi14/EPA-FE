@@ -22,6 +22,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             });     
         }
 
+        this.wait(1000);
         const authHeader = request.headers.get('Authorization');
         const isLoggedIn = authHeader && authHeader.startsWith('Bearer fake-jwt-token'); //check if user is logged in
         const roleString = isLoggedIn && authHeader.split('.')[1]; 
@@ -70,6 +71,14 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
     private error(message:any) {
         return throwError({ status: 400, error: { message } });
+    }
+
+    private wait(ms:any){
+        var start = new Date().getTime();
+        var end = start;
+        while(end < start + ms) {
+          end = new Date().getTime();
+       }
     }
 }
 
