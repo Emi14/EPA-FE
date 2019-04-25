@@ -39,7 +39,7 @@ export class LeaveRequestComponent implements OnInit {
     newLeaveRequest.vacationRequestStatus = "PENDING";
     newLeaveRequest.vacationRequestType = leaveRequestType;
     newLeaveRequest.user = { //petrecatalin21
-      id: 1001, username: 'user', password: 'user', role: "USER", daysOff: this.freeDaysRemaining, workFromHome: false, "vacationRequests": []
+      id: 1001, username: 'user', password: 'user', role: "ADMIN", daysOff: this.freeDaysRemaining, workFromHome: false, "vacationRequests": []
     }
 
     const startDateAsDate = new Date(startDate);
